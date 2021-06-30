@@ -1,0 +1,25 @@
+{% extends "feed/base.html" %}
+
+{% block explore %}
+<div class="setting-content card">
+    <div class="row">
+        <div class="col-3 setting-fields">
+            <ul class="setting-list list-unstyled">
+                <li class="setting-list-item pb-4"><a href="{% url 'account' %}" class="text-dark">Edit Profile</a></li>
+                <li class="setting-list-item pb-4"><a href="{% url 'change-password' %}" class="text-dark">Change Password</a></li>
+                <li class="setting-list-item pb-4">Apps and Websites</li>
+                <li class="setting-list-item pb-4">Email and SMS</li>
+                <li class="setting-list-item pb-4">Push Notifications</li>
+                <li class="setting-list-item pb-4">Manage Contacts</li>
+                <li class="setting-list-item pb-4">Privacy and Security</li>
+                <li class="setting-list-item pb-4">Login Activity</li>
+                <li class="setting-list-item pb-4">Emails from Instagram</li>
+            </ul>
+        </div>
+        <div class="col-7 setting-area">
+            {% block setting-content %}{% endblock setting-content %}
+        </div>
+    </div>
+</div>
+
+{% endblock explore %}

@@ -1,0 +1,124 @@
+.container{
+    display: flex;
+    width: 100%;
+    margin-top: 50px;
+    align-items: center;
+}
+
+.video-container{
+    height: 100%;
+    width: 60%;
+    position: relative;
+}
+
+.video-container:hover{
+
+}
+
+
+
+.video{
+    height: auto;
+    width: 100%;
+}
+
+.play-pause{
+}
+
+.play{
+    color: white;
+    margin-left: 5px;
+}
+
+.pause{
+    color: white;
+    margin-left: 5px;
+}
+
+.main-controls{
+    position: absolute;
+    top: 40%;
+    left: 20px;
+    width: 80%;
+    visibility: hidden;
+}
+
+.forward{
+    color: white;
+}
+
+.backward{
+    color: white;
+}
+
+
+.controls{
+    display: flex;
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    flex-wrap: wrap;
+    visibility: hidden;
+}
+
+
+.footer-controls{
+    padding-top: 5px;
+    height: 30px;
+    width: 100%;
+}
+
+.bar{
+    top: 0px;
+    left: 0px;
+    height: 3px;
+    width: 100%;
+    background-color: white;
+}
+
+.bar-juice{
+    height: 100%;
+    background-color: red;
+    width: 0%;
+}
+
+.volume{
+    color: white;
+}
+
+.caption{
+    color: white;
+}
+
+.size{
+    color: white;
+}
+
+.download{
+    color: white;
+}
+
+.volume-container{
+    padding: 5px;
+}
+
+.caption-container{
+    padding: 5px;
+}
+
+.size-container{
+    padding: 5px;
+}
+
+.download-container{
+    padding: 5px;
+}
+
+.played-time{
+    color: white;
+    margin-left: 20px;
+}
+
+.left-time{
+    color: white;
+}

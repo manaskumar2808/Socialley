@@ -1,0 +1,68 @@
+
+
+
+
+
+
+/* get modal curved */
+
+.modal-content{
+    border-radius: 20px;
+}
+
+
+
+/* carousel */
+
+.carousel{
+    height: 100%;
+    width: 100%;
+}
+
+.carousel-inner{
+    height: 100%;
+    width: 100%;
+}
+
+.carousel-item{
+    height: 100%;
+    width: 100%;
+}
+
+.carousel-indicators li{
+    width: 7px;
+    height: 7px;
+    border-radius: 100%;
+}
+
+/* carousel buttons customizations */
+
+#home-carousel-indicators li{
+    color: grey;
+    width: 7px;
+    height: 7px;
+    border-radius: 100%;
+}
+
+#home-carousel-indicators li .active{
+    color: blue;
+    width: 7px;
+    height: 7px;
+    border-radius: 100%;
+}
+
+
+
+/* bootstrap custom colors */
+
+.text-red{
+    color: red;
+}
+
+.text-tomato{
+    color: rgb(252, 45, 8);
+}
+
+.text-grey{
+    color: lightgrey;
+}

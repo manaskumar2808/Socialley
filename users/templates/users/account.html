@@ -1,0 +1,107 @@
+{% extends "users/settings.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% block setting-content %}
+<div>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+
+            
+            <fieldset class="form-group">
+
+                <div class="row mb-3">
+                    <div class="col-4 account-label">
+                        <img class="rounded-circle member-list-img mr-2" src="{{ user.profile.image.url }}" alt="">
+                    </div>
+                    <div class="col-8 account-value">
+                        <h5 class="mb-0">{{ user.username }}</h5>
+                        <small class="text-primary font-weight-bold mt-0" data-toggle="modal" data-target="#exampleModalCenter">Change Profile Photo</small>
+                    </div>
+
+                     <!-- Modal -->
+                        <div class="modal fade profile-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content profile-modal-content">
+                                <div class="modal-body profile-modal-body">
+                                <ul class="list-group list-group-flush"> 
+                                    <li class="list-group-item"><a href="#" class="text-dark font-weight-bold">Change Profile Photo</a></li>   
+                                    <li class="list-group-item">
+                                        <label for="id_image" class="text-primary font-weight-bold">{{ p_form.image.label }}</label>
+                                        <div class="" style="display: none;">{{ p_form.image }}</div>
+                                    </li>   
+                                    <li class="list-group-item"><a href="#" class="text-tomato font-weight-bold">Remove Current Photo</a></li>      
+                                    <li class="list-group-item"><a href="#" class="text-dark" data-dismiss="modal" aria-label="Close">Cancel</a></li>   
+                                </ul>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 account-label">{{ p_form.name.label }}</div>
+                    <div class="col-8 account-value">
+                        {{ p_form.name|add_class:'form-control' }}
+                    </div>
+                    {% for error in p_form.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 account-label">{{ u_form.username.label }}</div>
+                    <div class="col-8 account-value">{{ u_form.username|add_class:'form-control' }}</div>
+                    {% for error in u_form.username.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 account-label">{{ u_form.email.label }}</div>
+                    <div class="col-8 account-value">{{ u_form.email|add_class:'form-control' }}</div>
+                    {% for error in u_form.email.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 account-label">{{ p_form.phonenum.label }}</div>
+                    <div class="col-8 account-value">{{ p_form.phonenum|add_class:'form-control' }}</div>
+                    {% for error in p_form.phonenum.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 account-label">{{ p_form.age.label }}</div>
+                    <div class="col-8 account-value">{{ p_form.age|add_class:'form-control' }}</div>
+                    {% for error in p_form.age.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-4 account-label">{{ p_form.gender.label }}</div>
+                    <div class="col-8 account-value">{{ p_form.gender|add_class:'form-control' }}</div>
+                    {% for error in p_form.gender.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            </fieldset>
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        
+        </form>
+</div>
+
+
+{% endblock setting-content %}

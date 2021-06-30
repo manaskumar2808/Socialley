@@ -1,0 +1,119 @@
+
+/* feed thumbnail image */
+
+.feed-thumbnail-img-container{
+    position: relative;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    background-image: linear-gradient(to bottom left,rgb(219, 6, 105),rgb(248, 184, 7));    
+    border-radius: 100%;
+}
+
+.feed-thumbnail-img{
+    position: absolute;
+    top: 6%;
+    left: 6%;
+    height: 36px;
+    width: 36px;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+
+
+/* feed image and video section */
+
+.feed-img-section{
+    position: relative;
+}
+
+.feed-vdo-section{
+    position: relative;
+}
+
+/* video play button */
+
+.video-play{
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    font-size: 60px;
+    color: white;
+    opacity: .9;
+}
+
+/* feed image and video */
+
+.feed-img{
+    width: 100%;
+    height: auto;
+}
+
+.feed-vdo{
+    width: 100%;
+    height: auto;
+}
+
+
+/* review section */
+
+.review-section{
+    align-self: center;
+    width: 95%;
+}
+
+.review-item{
+    padding-left: 1.5%;
+    padding-right: 0;
+}
+
+
+/* feed modal */
+
+.feed-modal-body{
+    padding: 0%;
+}
+
+.feed-modal-content{
+    border-radius: 0%;
+}
+
+.feed-modal-img{
+    width: 100%;
+    height: auto;
+}
+
+.feed-modal-footer{
+    justify-content: center;
+}
+
+
+/* feed option modal responsive */
+
+@media(max-width:768px){
+    .feed-option-modal-content{
+        text-align: center;
+        width: 60%;
+        margin-left: 20%;
+    }    
+}
+
+@media(min-width:768px){
+    .feed-option-modal-content{
+        text-align: center;
+        width: 80%;
+    }    
+}
+
+.feed-option-modal-body{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+/* more post word */
+
+.more-post-word{
+    font-weight: 600;
+}

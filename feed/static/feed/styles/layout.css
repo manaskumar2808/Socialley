@@ -1,0 +1,151 @@
+
+/* body section responsive */
+@media(max-width:630px){
+    body{
+        position: relative;
+        background-color: white;
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
+
+@media(min-width:630px){
+    body{
+        position: relative;
+        background-color: #fafafa;
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
+
+
+
+
+
+/* main content responsive */
+
+@media(max-width:630px){
+    .main-content{
+        padding: 20px;
+    }
+}
+
+@media(min-width:630px){
+    .main-content{
+        padding: 20px;
+        margin-top: 30px;
+    }
+}
+
+
+
+
+/* main content section inside responsive */
+
+@media(min-width:768px){
+    .main-content-section-inside{
+        width: 90%;
+    }
+}
+
+@media(min-width:768px){
+    .main-content-section-inside{
+        width: 90%;
+    }
+}
+
+
+
+
+
+/* right content and section responsive */
+
+@media(max-width:1000px){
+    .right-content-section{
+        display: none;
+        position:fixed;
+        right: 12.5%;
+        padding-left: 0%;
+        margin-top: 30px;
+    }
+    
+    .right-content{
+        display: none;
+        position: fixed;
+        position: sticky;
+        top:40px;
+        padding: 20px;
+    }
+
+}
+
+
+@media(min-width:1000px){
+    .right-content-section{
+        position:fixed;
+        right:5.5%;
+        padding-left: 0%;
+        margin-top: 30px;
+    }
+    
+    .right-content{
+        position: fixed;
+        position: sticky;
+        top:40px;
+        padding: 20px;
+    }
+}
+
+@media(min-width:1200px){
+    .right-content-section{
+        position:fixed;
+        right:5.5%;
+        padding-left: 0%;
+        margin-top: 30px;
+    }
+    
+    .right-content{
+        position: fixed;
+        position: sticky;
+        top:40px;
+        padding: 20px;
+    }
+}
+
+
+
+
+
+
+
+/* feed content responsive */
+
+@media(max-width:630px){
+    .feed-content{
+        padding-top: 10px;
+        padding-bottom: 0px;
+        border: none;  
+    }
+}
+
+
+@media(min-width:630px){
+    .feed-content{
+        padding-top: 10px;
+        padding-bottom: 0px;
+        margin-top: 30px;   
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+}
+
+
+@media(min-width:768px){
+    .feed-content{
+        padding-top: 10px;
+        padding-bottom: 0px;
+        margin-top: 30px;  
+        margin-left: 0%;
+        margin-right: 0%; 
+    }
+}

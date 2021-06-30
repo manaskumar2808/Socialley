@@ -1,0 +1,238 @@
+{% extends "feed/base.html" %}
+
+{% block explore %}
+<div class="mt-4">
+  <div class="media profile-media">
+    <div class="profile-img-container"><img class="rounded-circle profile-img float-center" src="{{ member.profile.image.url }}" alt=""></div>
+    <div class="media-body profile-media-body ml-5">
+    <h2 class="mt-0 profile-username">{{ member.username }}&nbsp;                          
+        {% if member in followed_usernames %}
+            <button class="btn btn-primary" type="button" data-follow-url="{% url 'follow' member.id %}" data-unfollow-url="{% url 'unfollow' member.id %}" data-log="unfollow" id="follow-{{ member.id }}" onclick="follow_handle('follow-{{ member.id }}')">Unfollow</button>
+        {% else %}
+            <button class="btn btn-primary" type="button" data-follow-url="{% url 'follow' member.id %}" data-unfollow-url="{% url 'unfollow' member.id %}" data-log="follow" id="follow-{{ member.id }}" onclick="follow_handle('follow-{{ member.id }}')">Follow</button>
+        {% endif %}
+        <i class="fas fa-ellipsis-h dashboard-options ml-5" data-toggle="modal" data-target="#exampleModalCenter"></i>
+    </h2>
+      <h6 class="text-muted profile-email">{{ member.email }}</h6>
+
+      <div class="row mt-4 profile-count">
+        <div class="col-md-3 col-lg-3 col-xl-2">{{ feeds.count }} posts</div>
+        <div class="col-md-3 col-lg-3 col-xl-2" data-toggle="modal" data-target="#followerModal"><span id="followers-count" data-owner="other_user">{{ followers.count }}</span> followers</div>
+        <div class="col-md-3 col-lg-3 col-xl-2 ml-2" data-toggle="modal" data-target="#followedModal"><span id="followeds-count" data-owner="other_user">{{ followeds.count }}</span> following</div>
+      </div>    
+
+      {% if member.profile.name %}
+        <div class="profile-name text-dark mt-3">{{ member.profile.name }}</div>
+      {% endif %}
+
+        <!-- Modal -->
+        <div class="modal fade feed-option-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content feed-option-modal-content">
+                <div class="modal-body feed-option-modal-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="#" class="text-red float-center"><b>Block this user</b></a></li>
+                        <li class="list-group-item"><a href="#" class="text-red float-center"><b>Restrict</b></a></li>
+                        <li class="list-group-item"><a href="#" class="text-dark float-center">Report User</a></li>
+                        <li class="list-group-item"><a href="#" class="text-dark float-center" data-dismiss="modal" aria-label="Close">Cancel</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Follower Modal -->
+        <div class="modal fade" id="followerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content follower-modal-content">
+              <div class="modal-header follower-modal-header">
+                <h5 class="modal-title float-centre" id="exampleModalLongTitle">Followers</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body follower-modal-body">
+                <ul class="list-group list-group-flush">
+                  {% for follower in followers %}
+                    <li class="list-group-item">
+                      <div class="row">
+                        <div class="col-8"><a href="{% url 'dashboard' follower.follower_id.id %}" class="text-dark"><img src="{{ follower.follower_id.profile.image.url }}" class="rounded-circle follow-member-img mr-2" alt="">{{ follower.follower_id.username }}</a></div>
+                        <div class="col-4">
+                          {% if follower.follower_id in followed_usernames %}
+                            <button class="btn btn-primary float-right" type="button" data-follow-url="{% url 'follow' follower.follower_id.id %}" data-unfollow-url="{% url 'unfollow' follower.follower_id.id %}" data-log="unfollow" id="follow-{{ follower.follower_id.id }}" onclick="follow_handle('follow-{{ follower.follower_id.id }}')">Unfollow</button>
+                          {% else %}
+                            <button class="btn btn-primary float-right" type="button" data-follow-url="{% url 'follow' follower.follower_id.id %}" data-unfollow-url="{% url 'unfollow' follower.follower_id.id %}" data-log="follow" id="follow-{{ follower.follower_id.id }}" onclick="follow_handle('follow-{{ follower.follower_id.id }}')">Follow</button>
+                          {% endif %}
+                        </div>
+                      </div>  
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Followed Modal -->
+        <div class="modal fade" id="followedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content followed-modal-content">
+              <div class="modal-header followed-modal-header">
+                <h5 class="modal-title float-centre" id="exampleModalLongTitle">Following</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body followed-modal-body">
+                <ul class="list-group list-group-flush">
+                  {% for followed in followeds %}
+                    <li class="list-group-item">
+                      <div class="row">
+                        <div class="col-8"><a href="{% url 'dashboard' followed.followed_id.id %}" class="text-dark"><img src="{{ followed.followed_id.profile.image.url }}" class="rounded-circle follow-member-img mr-2" alt="">{{ followed.followed_id.username }}</a></div>
+                        <div class="col-4">
+                          {% if followed.followed_id in followed_usernames %}
+                            <button class="btn btn-primary float-right" type="button" data-follow-url="{% url 'follow' followed.followed_id.id %}" data-unfollow-url="{% url 'unfollow' followed.followed_id.id %}" data-log="unfollow" id="following-{{ followed.followed_id.id }}" onclick="follow_handle('following-{{ followed.followed_id.id }}')">Unfollow</button>
+                          {% else %}
+                            <button class="btn btn-primary float-right" type="button" data-follow-url="{% url 'follow' followed.followed_id.id %}" data-unfollow-url="{% url 'unfollow' followed.followed_id.id %}" data-log="follow" id="following-{{ followed.followed_id.id }}" onclick="follow_handle('following-{{ followed.followed_id.id }}')">Follow</button>
+                          {% endif %}
+                        </div>
+                      </div>  
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+    </div>
+  </div>
+
+  <div class="row mt-4 py-2 profile-count-sm">
+    <div class="col-4 profile-count-sm-post" style="text-align: center;"><span class="float-center">{{ feeds.count }}<p class="text-muted my-0">posts</p></span></div>
+    <div class="col-4 profile-count-sm-follower" data-toggle="modal" data-target="#followerModal" style="text-align: center;"><span id="followers-count" data-owner="current_user">{{ followers.count }}<p class="text-muted my-0">followers</p></span></div>
+    <div class="col-4 profile-count-sm-followed" data-toggle="modal" data-target="#followedModal" style="text-align: center;"><span id="followeds-count" data-owner="current_user">{{ followeds.count }}<p class="text-muted my-0">following</p></span></div>
+  </div> 
+
+
+  <nav class="profile-navbar row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-1 profile-nav-item top-border" id="profile-post-container"><small id="profile-post-section"><i class="fas fa-th" id="profile-post"></i>&nbsp;POSTS</small></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-1 profile-nav-item" id="profile-igtv-container"><small id="profile-igtv-section"><i class="fas fa-tv" id="profile-igtv"></i>&nbsp;IGTV</small></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-1 profile-nav-item" id="profile-tagged-container"><small id="profile-tagged-section"><i class="fas fa-user-tag" id="profile-tagged"></i>&nbsp;TAGS</small></div>
+    <div class="col-md-2"></div>
+  </nav>
+
+  <nav class="profile-navbar-sm row">
+    <div class="col-4 profile-nav-item" id="profile-post-container-sm" style="text-align: center;"><small id="profile-post-section-sm" class="text-primary"><i class="fas fa-th" id="profile-post-sm"></i></small></div>
+    <div class="col-4 profile-nav-item" id="profile-igtv-container-sm" style="text-align: center;"><small id="profile-igtv-section-sm" class="text-muted"><i class="fas fa-tv" id="profile-igtv-sm"></i></small></div>
+    <div class="col-4 profile-nav-item" id="profile-tagged-container-sm" style="text-align: center;"><small id="profile-tagged-section-sm" class="text-muted"><i class="fas fa-user-tag" id="profile-tagged-sm"></i></small></div>
+  </nav>
+
+  <div class="explore-feed-section" id="profile-post-content">
+    <small class="profile-words">Posts by <b>{{ member.username }}</b></small>
+    <ul class="list-inline explore-feed-list mt-3">
+        {% for feed in feeds %}
+            <li class="list-inline-item explore-feed-list-item">
+              <div class="explore-feed">
+                {% if feed.image %}
+                <a href="{% url 'feed-detail' feed.id %}"><img src="{{ feed.image.url }}" alt="" class="explore-feed-image"></a>
+              {% elif feed.video %}
+                <a href="{% url 'feed-detail' feed.id %}">
+                  <img src="/media/post_video_posters/milky-way-1023340_1920.jpg" class="explore-feed-video">
+                </a>
+              {% endif %}
+              
+                <div class="explore-feed-info text-light">
+                    <span class="explore-feed-heart-section">
+                        <i class="fas fa-heart" id="explore-feed-heart"></i>
+                        <b>{{ feed.likes }} </b>
+                    </span>
+                    <span class="explore-feed-comment-section">
+                        <i class="fas fa-comment" id="explore-feed-comment"></i>
+                        <b>{{ feed.comments }}</b>
+                    </span>
+                </div>
+
+                <div class="explore-feed-type text-light">
+                    {% if feed.has_gallery %}
+                    <span class="explore-feed-type-gallery-section float-right mr-1">
+                      <i class="fas fa-clone"></i>
+                    </span>
+                    {% elif feed.video %}
+                    <span class="explore-feed-type-video-section float-right mr-1">
+                      <i class="fas fa-video"></i>
+                    </span>
+                    {% elif feed.image %}
+                    <span class="explore-feed-type-image-section float-right mr-1">
+                      <i class="fas fa-camera"></i>
+                    </span>
+                    {% endif %}
+                  </div>
+
+            </div>
+            </li>
+        {% endfor %}
+    </ul>
+  </div>
+
+  <div class="explore-feed-section" id="profile-igtv-content">
+    <small class="profile-words">igtv content by <b>{{ member.username }}</b></small>
+  </div>
+
+  <div class="explore-feed-section" id="profile-tagged-content">
+    <small class="profile-words">tagged content for <b>{{ member.username }}</b></small>
+    {% if tag_list %}
+    <ul class="list-inline explore-feed-list mt-3">
+      {% for feed in tag_list %}
+          <li class="list-inline-item explore-feed-list-item">
+            <div class="explore-feed">
+              {% if feed.image %}
+                <a href="{% url 'feed-detail' feed.id %}"><img src="{{ feed.image.url }}" alt="" class="explore-feed-image"></a>
+              {% elif feed.video %}
+                <a href="{% url 'feed-detail' feed.id %}"><img src="/media/post_video_posters/milky-way-1023340_1920.jpg" class="explore-feed-video"></a>
+              {% endif %}
+
+              <div class="explore-feed-info text-light">
+                  <span class="explore-feed-heart-section">
+                      <i class="fas fa-heart" id="explore-feed-heart"></i>
+                      <b>{{ feed.likes }} </b>
+                  </span>
+                  <span class="explore-feed-comment-section">
+                      <i class="fas fa-comment" id="explore-feed-comment"></i>
+                      <b>{{ feed.comments }}</b>
+                  </span>
+              </div>
+
+              <div class="explore-feed-type text-light">
+                {% if feed.has_gallery %}
+                <span class="explore-feed-type-gallery-section float-right mr-1">
+                  <i class="fas fa-clone"></i>
+                </span>
+                {% elif feed.video %}
+                <span class="explore-feed-type-video-section float-right mr-1">
+                  <i class="fas fa-video"></i>
+                </span>
+                {% elif feed.image %}
+                <span class="explore-feed-type-image-section float-right mr-1">
+                  <i class="fas fa-camera"></i>
+                </span>
+                {% endif %}
+              </div>
+            </div>
+          </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+
+
+
+</div>
+  
+{% endblock explore %}

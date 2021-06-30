@@ -1,0 +1,90 @@
+{% load static %}
+{% load humanize %}
+{% load shortnaturaltime %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>INSTA</title>
+    {% endif %}
+
+    <link rel="icon" href="/media/logo/icons8-instagram-48.png" type="image/icon type">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/guest.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/status.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/explore.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/feed.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/feed-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/fa.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/comment.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/like.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/settings.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/bootstrap-customize.css' %}">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a547644f73.js" crossorigin="anonymous"></script>
+</head>
+<body style="background-color: #262626;">
+    
+
+    <div class="row mt-5 status-row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-1 status-prev-section">
+            {% if prev_status %}
+                <a href="{% url 'status-view' prev_status.id %}"><i class="fas fa-chevron-circle-left status-prev text-light"></i></a>
+            {% endif %}
+        </div>
+        <div class="col-lg-4">
+            <div class="status-section">
+                    <div class="status-image-container">
+                        <div class="media mb-2">
+                            <div class="status-thumbnail-img-container mr-2"><a href="{% url 'dashboard' current_status.setter.id %}" class="text-light"><img class="rounded-circle status-thumbnail-img" src="{{ current_status.setter.profile.image.url }}" alt=""></a></div>
+                            <div class="media-body py-1">
+                                <h6 class="mt-1"><a href="{% url 'dashboard' current_status.setter.id %}" class="text-light">{{ current_status.setter.username }}</a><small class="text-grey ml-2">{{ current_status.timestamp|shortnaturaltime }}</small><i class="fas fa-ellipsis-h text-light float-right mt-2 mr-1" data-toggle="modal" data-target="#exampleModalCenter-{{ current_status.id }}"></i></h6>  
+                            </div>
+                        </div>
+                        {% if current_status.image %}
+                            <img src="{{ current_status.image.url }}" class="status-image" id="status-{{ current_status.id }}" alt="" data-end-url="{% url 'home' %}" onload="setTimeout(countdown('status-{{ current_status.id }}'),13000)">
+                        {% endif %}
+                    </div>
+            </div>
+        </div>
+        <div class="col-lg-1 status-next-section">
+            <a href="{% url 'home' %}" style="color: white;"><i class="fas fa-times fa-2x"></i></a>
+            {% if next_status %}
+                <a href="{% url 'status-view' next_status.id %}"><i class="fas fa-chevron-circle-right status-next text-light"></i></a>
+            {% endif %}
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade feed-option-modal" id="exampleModalCenter-{{ current_status.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content feed-option-modal-content">
+            <div class="modal-body feed-option-modal-body">
+                <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="#" class="text-dark float-center">Report Inappropriate</a></li>
+                        <li class="list-group-item"><a href="#" class="text-dark float-center">Unfollow</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+    <script src="{% static 'feed/scripts/main.js' %}"></script> 
+</body>
+</html>

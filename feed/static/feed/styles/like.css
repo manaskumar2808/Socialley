@@ -1,0 +1,32 @@
+
+
+.liked{
+    color: rgb(252, 45, 8);
+}
+
+/* extended like */
+
+.show-like-section{
+    position: absolute;
+    top: 40%;
+    left: 41%;
+}
+
+.show-like{
+    font-size: 80px;
+    opacity: .9;
+    display: none;
+}
+
+.show-like-extended{
+    font-size: 90px;
+    opacity: 0.8;
+    transition: all 1s ease-in-out;
+}
+
+.hide-like-extended{
+    font-size: 80px;
+    opacity: 0;
+    transition: all 1s ease-in-out;
+}
+

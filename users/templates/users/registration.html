@@ -1,0 +1,22 @@
+{% extends "feed/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="main-content card">
+    <form action="" method="POST">
+        {% csrf_token %}
+        
+        <fieldset class="form-group">
+            {{ form|crispy }}
+        </fieldset>
+
+        <div class="form-group">
+            <button class="btn btn-dark" type="submit">Sign up</button>
+        </div>
+
+    </form>
+
+</div>
+
+
+{% endblock content %}

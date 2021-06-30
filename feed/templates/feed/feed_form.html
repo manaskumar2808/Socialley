@@ -1,0 +1,68 @@
+{%  extends "feed/base.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="main-content card">
+
+        <div class="row create-option border-bottom">
+            <div class="col-6 create-post-option create-option-border-bottom" id="create-post-option"><a href="{% url 'feed-create' %}" class="text-dark">Create Post</a></div>
+            <div class="col-6 create-status-option" id="create-status-option"><a href="{% url 'status-create' %}" class="text-dark">Set Status</a></div>
+        </div>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group p-3">
+
+                <div class="row mb-3">
+                    <div class="col-4" style="text-align: center;">
+                        <label for="id_image" class=""><i class="fas fa-camera fa-2x"></i></label>
+                        <p>image</p>
+                        <div class="" style="display: none;">{{ form.image }}</div>                
+                    </div>
+                    <div class="col-4" style="text-align: center;">
+                        <label for="id_video" class=""><i class="fas fa-video fa-2x"></i></label>
+                        <p>video</p>
+                        <div class="" style="display: none;">{{ form.video }}</div>  
+                    </div>
+                    <div class="col-4" style="text-align: center;">
+                        <label for="id_gallery" class=""><i class="fas fa-clone fa-2x"></i></label>
+                        <p>gallery</p>
+                        <div class="" style="display: none;">{{ g_form.gallery }}</div>  
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-3 account-label">{{ form.title.label }}</div>
+                    <div class="col-9 account-value">{{ form.title|add_class:'form-control' }}</div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-3 account-label">{{ form.description.label }}</div>
+                    <div class="col-9 account-value">{{ form.description|add_class:'form-control' }}</div>
+                </div>
+
+
+            </fieldset>
+            <div class="row mb-3">
+                <div class="col-3 account-label"></div>
+                <div class="col-9 account-value">
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">post</button>
+                    </div> 
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+{% endblock content %}
+
+
+{% block right-content %}
+<div class="right-content">
+    <img src="" alt="" id="output">
+</div>
+
+{% endblock right-content %}

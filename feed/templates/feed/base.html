@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Socialley</title>
+    {% endif %}
+
+    <link rel="icon" href="/media/logo/icons8-instagram-48.png" type="image/icon type">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'feed/styles/main.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/guest.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/status.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/explore.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/feed.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/feed-detail.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/fa.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/comment.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/like.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/settings.css' %}">
+    <link rel="stylesheet" href="{% static 'feed/styles/bootstrap-customize.css' %}">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a547644f73.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <nav class="navbar sticky-top navigation card">
+    <div class="row navigation-row">
+        <div class="col-xs-0 col-sm-1 col-md-1 col-lg-1 col-xl-2"></div>
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5 navigation-mid row">
+          <div class="col-xs-6 col-sm-12 col-md-7 navigation-brand-section"><a href="#" class="navbar-brand text-dark">Socialley</a></div>
+          <div class="col-xs-6 col-sm-0 col-md-5 navigation-search-section">
+            <input type="text" class="search-bar" id="search-bar" placeholder="&#xF002; Search" style="font-family: Arial, FontAwesome;">
+          </div>
+        </div>
+        <div class="col-xs-7 col-sm-5 col-md-4 col-lg-4 col-xl-4 row navigation-content-section">
+          <div class="col-lg-2 col-xl-4"></div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-8 row navigation-content">
+            {% if user.is_authenticated %}
+              <div class="col-2"><a href="{% url 'feed-home' %}" class="text-dark"><i class="fas fa-home" id="nav-home"></i></a></div>
+              <div class="col-2"><a href="#" class="text-dark"><i class="far fa-paper-plane" id="nav-message"></i></a></div>
+              <div class="col-2"><i class="far fa-plus-square text-dark" id="nav-post" data-toggle="modal" data-target="#create-option-modal"></i></div>
+              <div class="col-2"><a href="{% url 'people' %}" class="text-dark"><i class="far fa-compass" id="nav-explore"></i></a></div>
+              <div class="col-2"><a href="#" class="text-dark"><i class="far fa-heart" id="nav-heart"  data-container="body" data-toggle="popover" data-placement="bottom" data-content="working"></i></a></div>
+              <div class="col-2"><a href="{% url 'profile' %}" class="text-dark"><img src="{{ user.profile.image.url }}" class="rounded-circle navigation-img" alt="" id="nav-profile-img"></a></div>
+            {% else %}
+              <div class="col-2"><a href="{% url 'login' %}" class="text-dark"><i class="fas fa-sign-in-alt" id="nav-login"></i></a></div>
+              <div class="col-2"><a href="{% url 'registration' %}" class="text-dark"><i class="fas fa-user-plus" id="nav-register"></i></a></div>
+            {% endif %}
+          </div>
+          
+        </div>
+        <div class="col-xs-0 col-sm-1 col-md-1 col-lg-1 col-xl-1"></div>
+    </div>
+
+  </nav>
+
+          <!-- Create Modal -->
+          <div class="modal fade create-option-modal" id="create-option-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content create-option-modal-content">
+                <div class="modal-body create-option-modal-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="{% url 'feed-create' %}" class="text-dark float-center">Create Post</a></li>
+                        <li class="list-group-item"><a href="{% url 'status-create' %}" class="text-dark float-center">Set Status</a></li>
+                        <li class="list-group-item"><a href="#" class="text-dark float-center" data-dismiss="modal" aria-label="Close">Cancel</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+          </div>
+        
+
+
+
+  <div class="row">
+      <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1 col-xl-2 left-content-section">
+        {% block left-content %}{% endblock left-content %}
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-9 col-lg-7 col-xl-6 main-content-section">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-3 mb-3">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+        <div class="main-content-section-inside">
+          {% block content %}{% endblock content %}
+        </div>
+      </div>
+      <div class="col-xs-0 col-sm-0 col-md-1 col-lg-4 col-xl-4 right-content-section">
+        {% block right-content %}{% endblock right-content %}
+      </div>
+  </div>
+
+
+  <div class="explore-section-container">
+    <div class="explore-section px-0">
+      {% block explore %}{% endblock explore %}
+    </div>
+  </div>
+
+  <nav class="navigation-content-section-sm">
+    <div class="row navigation-content-sm">
+      {% if user.is_authenticated %}
+        <div class="col-2 pr-0" style="text-align: right;"><a href="{% url 'feed-home' %}" class="text-dark"><i class="fas fa-home" id="nav-home-sm"></i></a></div>
+        <div class="col-2 pr-0" style="text-align: right;"><a href="#" class="text-dark"><i class="far fa-paper-plane" id="nav-message-sm"></i></a></div>
+        <div class="col-2" style="text-align: right;"><a href="{% url 'feed-create' %}" class="text-dark"><i class="far fa-plus-square" id="nav-post-sm"></i></a></div>
+        <div class="col-2" style="text-align: left;"><a href="{% url 'people' %}" class="text-dark"><i class="far fa-compass" id="nav-explore-sm"></i></a></div>
+        <div class="col-2 pl-0" style="text-align: left;"><a href="#" class="text-dark"><i class="far fa-heart" id="nav-heart-sm"  data-container="body" data-toggle="popover" data-placement="bottom" data-content="working"></i></a></div>
+        <div class="col-2 pl-0" style="text-align: left;"><a href="{% url 'profile' %}" class="text-dark"><img src="{{ user.profile.image.url }}" class="rounded-circle navigation-img" alt="" id="nav-profile-img-sm"></a></div>
+
+      {% else %}
+        <div class="col-2 px-0" style="text-align: center;"><a href="{% url 'login' %}" class="text-dark"><i class="fas fa-sign-in-alt" id="nav-login-sm"></i></a></div>
+        <div class="col-2 pr-2"><a href="{% url 'registration' %}" class="text-dark"><i class="fas fa-user-plus" id="nav-register-sm"></i></a></div>
+      {% endif %}
+    </div>
+  </nav>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+    <script src="{% static 'feed/scripts/main.js' %}"></script>   
+</body>
+</html>

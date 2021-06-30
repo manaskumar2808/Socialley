@@ -1,0 +1,82 @@
+{% extends "feed/base.html" %}
+
+{% block explore %}
+
+<div class="explore-account-section">
+    <h6 class="text-muted mb-4">Discover People</h6>
+    <ul class="explore-account-list list-inline">
+        {% for account in accounts %}
+        <li class="list-inline-item">
+            <div class="explore-account card">
+                <img src="{{ account.profile.image.url }}" alt="" class="rounded-circle explore-account-image">
+                <a href="{% url 'dashboard' account.id %}"><h6 class="text-dark mt-3">{{ account.username }}</h6></a>
+
+                {% if account in follower_list %}
+                    <small class="text-muted" id="tag">Following you</small>
+                {% elif account == user %}
+                    <small class="text-muted" id="tag">You</small>
+                {% else %}
+                    <small class="text-muted" id="tag">Suggested for you</small>
+                {% endif %}
+
+                {% if account in follow_list %}
+                    <button type="button" class="btn btn-primary mt-3" data-follow-url="{% url 'follow' account.id %}" data-unfollow-url="{% url 'unfollow' account.id %}" data-log="unfollow" id="follow-{{ account.id }}" onclick="follow_handle('follow-{{ account.id }}')">Unfollow</button>
+                {% else %}
+                    <button type="button" class="btn btn-primary mt-3" data-follow-url="{% url 'follow' account.id %}" data-unfollow-url="{% url 'unfollow' account.id %}" data-log="follow" id="follow-{{ account.id }}" onclick="follow_handle('follow-{{ account.id }}')">Follow</button>
+                {% endif %}
+
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+<div class="explore-feed-section">
+    <h6 class="text-muted mb-2">Explore</h6>
+    <ul class="list-inline explore-feed-list">
+        {% for feed in feeds %}
+            <li class="list-inline-item explore-feed-list-item">
+                <div class="explore-feed">
+                    {% if feed.image %}
+                        <a href="{% url 'feed-detail' feed.id %}"><img src="{{ feed.image.url }}" alt="" class="explore-feed-image"></a>
+                    {% elif feed.video %}
+                        <a href="{% url 'feed-detail' feed.id %}">
+                        <img src="/media/post_video_posters/milky-way-1023340_1920.jpg" class="explore-feed-video">
+                        </a>
+                    {% endif %}  
+
+                    <div class="explore-feed-info text-light">
+                        <span class="explore-feed-heart-section">
+                            <i class="fas fa-heart" id="explore-feed-heart"></i>
+                            <b>{{ feed.likes }}</b> 
+                        </span>
+                        <span class="explore-feed-comment-section">
+                            <i class="fas fa-comment" id="explore-feed-comment"></i>
+                            <b>{{ feed.comments }}</b>
+                        </span>
+                    </div>
+
+                    <div class="explore-feed-type text-light">
+                        {% if feed.has_gallery %}
+                        <span class="explore-feed-type-gallery-section float-right mr-1">
+                          <i class="fas fa-clone"></i>
+                        </span>
+                        {% elif feed.video %}
+                        <span class="explore-feed-type-video-section float-right mr-1">
+                          <i class="fas fa-video"></i>
+                        </span>
+                        {% elif feed.image %}
+                        <span class="explore-feed-type-image-section float-right mr-1">
+                          <i class="fas fa-camera"></i>
+                        </span>
+                        {% endif %}
+                      </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+{% endblock explore %}

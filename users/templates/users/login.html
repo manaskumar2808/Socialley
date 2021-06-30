@@ -1,0 +1,29 @@
+{% extends "users/guest.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="guest-right-content card">
+    <div class="brand">Instagram</div>
+    <form action="" method="POST" class="login-form">
+        {% csrf_token %}
+        
+        <fieldset class="form-group">
+            {{ form|crispy }}
+        </fieldset>
+
+        <div class="form-group">
+            <button class="btn btn-dark" type="submit">Sign in</button>
+        </div>
+
+    </form>
+
+</div>
+
+<div class="guest-right-content card my-3">
+    <p class="my-0 mx-4 float-center">Don't have an account?<a href="{% url 'registration' %}"> Sign up</a></p>
+
+</div>
+
+
+
+{% endblock content %}

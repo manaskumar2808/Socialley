@@ -1,0 +1,40 @@
+/* settings content */
+
+.setting-content{
+    padding: 0%;
+    margin-top: 30px;
+    width: 93%;
+}
+
+/* setting area */
+
+.setting-area{
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+/* setting fields */
+
+.setting-fields{
+    padding-left: 50px;
+    padding-right: 20px;
+    padding-top: 2%;
+    padding-bottom: 1%;
+    border-right: 1px solid lightgrey;
+}
+
+
+/* accounts fields */
+
+.account-label{
+    padding-top: 6px;
+    text-align: right;
+    font-weight: 600;
+}
+
+.account-value{
+    justify-content: left;
+}

@@ -1,0 +1,305 @@
+{% extends "feed/base.html" %}
+{% load widget_tweaks %}
+{% load humanize %}
+
+{% block content %}
+
+{% if statuses %}
+<div class="status-content card">
+    <ul class="list-inline status-list">
+        {% for status in statuses %}
+            <li class="list-inline-item ml-3 status-list-item"><a href="{% url 'status-view' status.id %}"><div class="status-list-img-container"><img src="{{ status.setter.profile.image.url }}" class="rounded-circle status-list-img" alt=""></div><small class="text-dark">{{ status.setter.username|truncatechars:7 }}</small></a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<ul class="list-inline profile-complete-list">
+{% if user.profile.image.url == '/media/default_profile.jpg' %}
+<li class="list-inline-item">
+    <div class="profile-complete-card card">
+        <img src="{{ user.profile.image.url }}" class="rounded-circle profile-complete-img" alt="">
+        <p class="text-dark">Add your profile pic</p>
+        <a href="{% url 'account' %}" class="btn btn-dark">Add</a>
+    </div>
+</li>
+{% endif %}
+
+{% if not user.profile.name %}
+<li class="list-inline-item">
+    <div class="profile-complete-card card">
+        <img src="{{ user.profile.image.url }}" class="rounded-circle profile-complete-img" alt="">
+        <p class="text-dark">Add your full name</p>
+        <a href="{% url 'account' %}" class="btn btn-dark">Add</a>
+    </div>
+</li>
+{% endif %}
+
+</ul>
+
+{%  if not followed_usernames %}
+<div class="follow-suggestion card">
+    <h4 class="text-muted">Follow Suggestions</h4>
+    <ul class="list-unstyled mt-4">
+        {% for member in members %}
+            {% if member != user and member.profile  %}
+                <li class="row mb-3">
+                    <div class="col-md-2 p-0"><img src="{{ member.profile.image.url }}" class="rounded-circle follow-suggestion-list-img" alt=""></div>
+                    <div class="col-md-7 pl-0"><h6 class="mb-0"><a href="{% url 'dashboard' member.id %}" class="text-dark">{{ member.username }}</a></h6><small class="text-muted mt-0">{% if member in follower_usernames %}Follows You{% else %}Suggested For You{% endif %}</small></div>
+                    <div class="col-md-3">
+                        <small class="text-primary">
+                            {% if member in followed_usernames %}
+                                <button class="btn btn-primary" data-follow-url="{% url 'follow' member.id %}" data-unfollow-url="{% url 'unfollow' member.id %}" data-log="unfollow" id="follow-{{ member.id }}" onclick="follow_handle('follow-{{ member.id }}')">Unfollow</button> 
+                            {% else %}
+                                <button class="btn btn-primary" data-follow-url="{% url 'follow' member.id %}" data-unfollow-url="{% url 'unfollow' member.id %}" data-log="follow" id="follow-{{ member.id }}" onclick="follow_handle('follow-{{ member.id }}')">Follow</button> 
+                            {% endif %}
+                        </small>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+
+
+{% endif %}
+
+
+
+{% for feed in feeds %}
+    <div class="feed-content card">
+        <div class="media mb-1">
+            <div class="feed-thumbnail-img-container mr-3 ml-3"><a href="{% url 'dashboard' feed.creator.id %}" class="text-dark"><img class="rounded-circle feed-thumbnail-img" src="{{ feed.creator.profile.image.url }}" alt=""></a></div>
+            <div class="media-body py-0">
+                <h6 class="mt-0 mb-1"><a href="{% url 'dashboard' feed.creator.id %}" class="text-dark">{{ feed.creator.username }}</a><i class="fas fa-ellipsis-h float-right mt-2 mr-3" data-toggle="modal" data-target="#exampleModalCenter-{{ feed.id }}"></i><br><small>{{ feed.title }}</small></h6>  
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade feed-option-modal" id="exampleModalCenter-{{ feed.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content feed-option-modal-content">
+                <div class="modal-body feed-option-modal-body">
+                    <ul class="list-group list-group-flush">
+                        {% if feed.creator == user %}
+                            <li class="list-group-item"><a href="{% url 'feed-update' feed.id %}" class="text-primary float-center"><b>Update feed</b></a></li>
+                            <li class="list-group-item"><a href="{% url 'feed-delete' feed.id %}" class="text-tomato float-center"><b>Delete feed</b></a></li>
+                        {% else %}
+                            <li class="list-group-item"><a href="#" class="text-tomato float-center"><b>Report Inappropriate</b></a></li>
+                            <li class="list-group-item"><a href="#" class="text-tomato float-center"><b>Unfollow</b></a></li>
+                        {% endif %}
+                        <li class="list-group-item"><a href="{% url 'feed-detail' feed.id %}" class="text-dark float-center">Go to post</a></li>
+                        <li class="list-group-item"><a href="#" class="text-dark float-center">Share</a></li>
+                        <li class="list-group-item"><a href="#" class="text-dark float-center">Copy Link</a></li>
+                        <li class="list-group-item"><a href="#" class="text-dark float-center">Embed</a></li>
+                        <li class="list-group-item"><a href="#" class="text-dark float-center" data-dismiss="modal" aria-label="Close">Cancel</a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!--here is the main image-->
+        {% if feed.image %}
+
+            {% if feed.get_gallery %}
+
+                <div id="carouselExampleIndicators-{{ feed.id }}" class="carousel slide feed-carousel" data-ride="carousel">
+
+                    <ol class="carousel-indicators" id="#home-carousel-indicator">
+                        <li data-target="#carouselExampleIndicators-{{ feed.id }}" data-slide-to="0" class="active"></li>
+                        {% for _ in feed.get_gallery %}
+                            <li data-target="#carouselExampleIndicators-{{ feed.id }}" data-slide-to="{{ forloop.counter }}"></li>
+                        {% endfor %}
+                    </ol>
+
+                    <div class="carousel-inner feed-img-section">
+                        <div class="carousel-item active">
+                            <img src="{{ feed.image.url }}" alt="" id="feed-{{ feed.id }}-image" class="feed-img d-block" ondblclick="like_handle('like-{{ feed.id }}');show_like('feed-{{ feed.id }}-image')">
+                            <span class="show-like-section"><i class="fas fa-heart text-light show-like" id="feed-{{ feed.id }}-image-heart" style="display: none;"></i></span>
+                        </div>
+                        {% for image in feed.get_gallery %}
+                            <div class="carousel-item">
+                                <img src="{{ image.gallery.url }}" alt="" id="feed-{{ feed.id }}-gallery-{{ forloop.counter }}-image" class="feed-img d-block" ondblclick="like_handle('like-{{ feed.id }}');show_like('feed-{{ feed.id }}-gallery-{{ forloop.counter }}-image')">
+                                <span class="show-like-section"><i class="fas fa-heart text-light show-like" id="feed-{{ feed.id }}-gallery-{{ forloop.counter }}-image-heart" style="display: none;"></i></span>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators-{{ feed.id }}" role="button" data-slide="prev">
+                        <span class="" aria-hidden="true"><i class="fas fa-chevron-circle-left"></i></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators-{{ feed.id }}" role="button" data-slide="next">
+                        <span class="" aria-hidden="true"><i class="fas fa-chevron-circle-right"></i></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+            {% else %}
+
+                <div class="feed-img-section">
+                    <img src="{{ feed.image.url }}" alt="" id="feed-{{ feed.id }}-image" class="feed-img" ondblclick="like_handle('like-{{ feed.id }}');show_like('feed-{{ feed.id }}-image')">
+                    <span class="show-like-section"><i class="fas fa-heart text-light show-like" id="feed-{{ feed.id }}-image-heart" style="display: none;"></i></span>
+                </div>
+
+            {% endif %}
+        
+        {% elif feed.get_gallery %}
+
+            <div id="carouselExampleIndicators-{{ feed.id }}" class="carousel slide feed-carousel" data-ride="carousel">
+                <div class="carousel-inner feed-img-section">
+                    {% for image in feed.get_gallery %}
+                        <div class="carousel-item active">
+                            <img src="{{ image.gallery.url }}" alt="" id="feed-{{ feed.id }}-gallery-{{ forloop.counter }}-image" class="feed-img d-block" ondblclick="like_handle('like-{{ feed.id }}');show_like('feed-{{ feed.id }}-gallery-{{ forloop.counter }}-image')">
+                            <span class="show-like-section"><i class="fas fa-heart text-light show-like" id="feed-{{ feed.id }}-gallery-{{ forloop.counter }}-image-heart" style="display: none;"></i></span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <a class="carousel-control-prev" href="#carouselExampleIndicators-{{ feed.id }}" role="button" data-slide="prev">
+                    <span class="" aria-hidden="true"><i class="fas fa-chevron-circle-right"></i></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators-{{ feed.id }}" role="button" data-slide="next">
+                    <span class="" aria-hidden="true"><i class="fas fa-chevron-circle-left"></i></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+            </div>
+
+        
+
+        {% elif feed.video %}
+            <div class="feed-vdo-section" id="feed-{{ feed.id }}" onclick="play_handle('feed-{{ feed.id }}')">
+                <video src="{{ feed.video.url }}" id="feed-{{ feed.id }}-video" class="feed-vdo"></video>
+                <div class="feed-vdo-control">
+                    <i class="fas fa-play video-play" id="feed-{{ feed.id }}-video-play"></i>
+                </div>
+            </div>
+
+        {% endif %}
+
+        <div class="review-section mt-3 row">
+            <div class="col-1 review-item">
+                {% if feed in liked_feeds %}
+                    <i class="fas fa-heart text-tomato" data-liked="true" data-like-url="{% url 'like' feed.id %}" data-unlike-url="{% url 'unlike' feed.id %}" id="like-{{ feed.id }}" onclick="like_handle('like-{{ feed.id }}')"></i>
+                {% else %}
+                    <i class="far fa-heart text-dark" data-liked="false" data-like-url="{% url 'like' feed.id %}" data-unlike-url="{% url 'unlike' feed.id %}" id="like-{{ feed.id }}" onclick="like_handle('like-{{ feed.id }}')"></i>
+                {% endif %}
+            </div>
+            <div class="col-1 review-item"><a href="{% url 'feed-detail' feed.id %}" class="text-dark"><i class="far fa-comment"></i></a></div>
+            <div class="col-1 review-item"><i class="far fa-paper-plane"></i></div>
+            <div class="col-1 review-item"></div>
+            <div class="col-5 review-item"></div>
+            <div class="col-1 review-item"></div>
+            <div class="col-1 review-item"></div>
+            <div class="col-1 review-item">
+            {% if feed in bookmarked_feeds %}
+                <i class="fas fa-bookmark" data-bookmarked="true" data-bookmark-url="{% url 'bookmark' feed.id %}" data-unbookmark-url="{% url 'unbookmark' feed.id %}" id="bookmark-{{ feed.id }}" onclick="bookmark_handle('bookmark-{{ feed.id }}')"></i>
+            {% else %}
+                <i class="far fa-bookmark" data-bookmarked="false" data-bookmark-url="{% url 'bookmark' feed.id %}" data-unbookmark-url="{% url 'unbookmark' feed.id %}" id="bookmark-{{ feed.id }}" onclick="bookmark_handle('bookmark-{{ feed.id }}')"></i>     
+            {% endif %}
+            </div>
+        </div>
+        <div class="likes-num-section ml-4 mt-2">
+            <span id="like-{{ feed.id }}-count">{{ feed.likes }}</span> likes
+        </div>
+
+        {% if feed.description %}
+        <div class="creator-description ml-4 mt-0" id="creator-description-{{ feed.id }}">
+            <a href="{% url 'dashboard' feed.creator.id %}" class="text-dark commentor-font">{{ feed.creator.username }}</a> <small class="comment-font">{{ feed.description|truncatewords:10 }}</small><small class="text-muted" onclick="more('creator-description-{{ feed.id }}')">more</small>
+        </div>
+
+        <div class="creator-description-complete ml-4 mt-0" id="creator-description-{{ feed.id }}-complete">
+            <a href="{% url 'dashboard' feed.creator.id %}" class="text-dark commentor-font">{{ feed.creator.username }}</a> <small class="comment-font">{{ feed.description }}</small>
+        </div>
+        {% endif %}
+
+        {% if feed.has_comments %}
+        <small class="ml-4 comment-font"><a href="{% url 'feed-detail' feed.id %}" class="text-muted">View all {{ feed.comments }} comments</a></small>
+        <div class="recent-comment-section row ml-4 mt-0">
+            {% for comment in feed.get_recent_comments %}
+                <div class="col-10 pl-0">
+                    <a href="{% url 'dashboard' comment.commentor_id.id %}" class="text-dark commentor-font">{{ comment.commentor_id.username }}</a> <small class="comment-font">{{ comment.comment_text }}</small>
+                </div>
+                <div class="col-2">
+                    {% if comment in liked_comments %}
+                        <i class="fas fa-heart comment-heart text-tomato" data-liked="true" data-like-url="{% url 'comment_like' feed.id comment.id %}" data-unlike-url="{% url 'comment_unlike' feed.id comment.id %}" id="like-{{ feed.id }}-comment-{{ comment.id }}" onclick="like_handle('like-{{ feed.id }}-comment-{{ comment.id }}')"></i>
+                    {% else %}
+                        <i class="far fa-heart comment-heart text-dark" data-liked="false" data-like-url="{% url 'comment_like' feed.id comment.id %}" data-unlike-url="{% url 'comment_unlike' feed.id comment.id %}" id="like-{{ feed.id }}-comment-{{ comment.id }}" onclick="like_handle('like-{{ feed.id }}-comment-{{ comment.id }}')"></i>
+                    {% endif %}
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="time-section ml-4">
+            <small class="text-muted">{{ feed.timestamp|naturaltime|upper }}</small>
+        </div>
+
+        <div class="comment-section">
+            <form action="{% url 'comment' feed.id %}" method="POST" id="comment-{{ feed.id }}-form" onsubmit="comment_form_handle('comment-{{ feed.id }}-form',event)">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-9">
+                        <input type="text" class="form-control comment-text" name="commentText" id="comment-{{ feed.id }}" placeholder="Add a comment..." autocomplete="off" onkeyup="comment_handle('comment-{{ feed.id }}')">                  
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" id="comment-{{ feed.id }}-post" class="float-right mr-4 btn btn-outline-primary comment-post" disabled>Post</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endfor %}
+
+{% endblock content %}
+
+
+{% block right-content %}
+<div class="right-content">
+    <div class="media mb-3">
+        <img class="align-self-center mr-3 rounded-circle user-list-img" src="{{ user.profile.image.url }}" alt="">
+        <div class="media-body">
+          <h6 class="mt-3">{{ user.username }}<br>
+            {% if user.profile.name %}
+            <small class="text-muted">{{ user.profile.name|title }}</small>
+            {% endif %}
+          </h6>
+          <p class="mb-0"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-8 text-muted">Suggestions For You</div>
+        <div class="col-md-4 text-dark">See All</div>
+    </div>
+
+    <ul class="list-unstyled">
+        {% for member in suggestions %}
+            {% if member != user and member.profile  %}
+                <li class="row mb-3">
+                    <div class="col-md-2"><img src="{{ member.profile.image.url }}" class="rounded-circle member-list-img" alt=""></div>
+                    <div class="col-md-6"><h6 class="mb-0"><a href="{% url 'dashboard' member.id %}" class="text-dark">{{ member.username }}</a></h6><small class="text-muted mt-0">{% if member in follower_usernames %}Follows You{% else %}Suggested For You{% endif %}</small></div>
+                    <div class="col-md-4">
+                        <small class="text-primary">
+                            {% if member in followed_usernames %}
+                                <p data-follow-url="{% url 'follow' member.id %}" data-unfollow-url="{% url 'unfollow' member.id %}" data-log="unfollow" id="follow-{{ member.id }}" onclick="follow_handle('follow-{{ member.id }}')">Unfollow</p> 
+                            {% else %}
+                                <p data-follow-url="{% url 'follow' member.id %}" data-unfollow-url="{% url 'unfollow' member.id %}" data-log="follow" id="follow-{{ member.id }}" onclick="follow_handle('follow-{{ member.id }}')">Follow</p> 
+                            {% endif %}
+                        </small>
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock right-content %}

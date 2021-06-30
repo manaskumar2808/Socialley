@@ -1,0 +1,161 @@
+/*  status content responsive */
+
+@media(max-width:630px){
+    .status-content{
+        padding-top: 20px;
+        padding-bottom: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+        overflow-x: scroll;
+        white-space: nowrap;   
+    }
+}
+
+@media(min-width:630px){
+    .status-content{
+        margin-left: 10%;
+        margin-right: 10%;
+        padding-top: 20px;
+        padding-bottom: 0px;
+        margin-top: 30px;
+        padding-left: 10px;
+        padding-right: 10px;
+        overflow-x: scroll;
+        white-space: nowrap;   
+    }
+}
+
+
+@media(min-width:768px){
+    .status-content{
+        margin-left: 0%;
+        margin-right: 0%;
+        padding-top: 20px;
+        padding-bottom: 0px;
+        margin-top: 30px;
+        padding-left: 10px;
+        padding-right: 10px;
+        overflow-x: scroll;
+        white-space: nowrap;   
+    }
+}
+
+/* status list */
+
+.status-list{
+    margin-bottom: 0px;
+}
+
+.status-list-item{
+    text-align: center;
+}
+
+.status-list-img-container{
+    position: relative;
+    height: 65px;
+    width: 65px;
+    background-image: linear-gradient(to bottom left,rgb(207, 5, 99),rgb(248, 184, 7));
+    border-radius: 100%;
+}
+
+/* status image */
+
+.status-list-img{
+    position: absolute;
+    top: 2.4%;
+    left: 2.4%;
+    height: 61px;
+    width: 61px;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+
+/* create option */
+
+.create-post-option{
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.create-status-option{
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.create-option-border-bottom{
+    border-bottom: 2px solid black;
+}
+
+
+/* status view classes */
+
+.status-row{
+    height: 100%;
+}
+
+
+.status-section{
+    align-self: center;
+    width: 90%;
+    height: 100%;
+}
+
+.status-image-container{
+    width: 100%;
+    height: 100%;
+    background-color: #262626;
+}
+
+.status-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* status thumbnail-image */
+
+
+.status-thumbnail-img-container{
+    position: relative;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    background-image: linear-gradient(to bottom left,rgb(219, 6, 105),rgb(248, 184, 7));    
+    border-radius: 100%;
+}
+
+.status-thumbnail-img{
+    position: absolute;
+    top: 6%;
+    left: 6%;
+    height: 36px;
+    width: 36px;
+    object-fit: cover;
+    border: 2px solid #262626;
+}
+
+
+/* status iteration */
+
+.status-prev-section{
+    position: relative;
+    text-align: center;
+}
+
+.status-prev{
+    position: absolute;
+    top: 50%;
+    right: 40%;
+}
+
+.status-next-section{
+    position: relative;
+}
+
+.status-next{
+    position: absolute;
+    top: 50%;
+    left: 0%;
+}

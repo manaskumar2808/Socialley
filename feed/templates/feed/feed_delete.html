@@ -1,0 +1,19 @@
+{% extends "feed/base.html" %}
+
+
+{% block content %}
+
+    <div class="main-content card">
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            <p>Are you sure you want to delete "{{ feed.title }}" post?</p>
+            <div class="form-group">
+                <button class="btn btn-danger" type="submit">delete</button>
+                <a class="btn btn-dark" href="{% url 'feed-detail' feed.id %}">cancel</a>
+            </div>
+    
+        </form>
+    </div>
+
+{% endblock content %}

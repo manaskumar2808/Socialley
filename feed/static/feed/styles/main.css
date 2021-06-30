@@ -1,0 +1,160 @@
+
+/* anchor customization */
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+
+/* login form */
+
+.login-form{
+    width: 90%;
+}
+
+
+/* profile complete  */
+
+.profile-complete-list{
+    margin-top: 30px;
+}
+
+.profile-complete-card{
+    height: 250px;
+    width: 200px;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-complete-img{
+    height: 90px;
+    width: 90px;
+    border: 3px solid grey;
+}
+
+
+/* follow suggestion */
+
+.follow-suggestion{
+    padding: 50px;
+    padding-left: 80px;
+    margin-top: 30px; 
+}
+
+.follow-suggestion-list-img{
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+}
+
+
+.member-list-img{
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border: 1px solid lightgrey;
+}
+
+.user-list-img{
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border:.5px solid lightgray;
+}
+
+
+/* btn disabled */
+
+.btn.disabled, .btn:disabled {
+    opacity: .30;
+}
+
+/* scrollbar invisible */
+
+::-webkit-scrollbar {
+    width: 0px; 
+    background: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* border gradient */
+
+.border-gradient{
+    border: 2px solid;
+    border-radius: 50%;
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: linear-gradient(to left,rgb(119, 2, 113),rgb(255, 102, 0));
+}
+
+
+.dashboard-options{
+    font-size: 22px;
+}
+
+
+
+/* material icons font */
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+    src: local('Material Icons'),
+      local('MaterialIcons-Regular'),
+      url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+      url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
+      url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }
+  
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+{% extends "users/guest.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="guest-right-content card">
+  <div class="brand">Instagram</div>
+  <p>You just logged out</p>
+  <div>
+    <a href="{% url 'login' %}" class="btn btn-primary">Sign in</a>
+    <a href="{% url 'registration' %}" class="btn btn-dark">Sign up</a> 
+  </div>
+
+</div>
+
+
+{% endblock content %}

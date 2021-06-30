@@ -1,0 +1,102 @@
+/* comment area responsive */
+
+.comment-area{
+    height: 380px;
+    width: 100%;
+    overflow-y: scroll;
+    border-top: 0.5px solid lightgray;
+    border-bottom: 0.5px solid lightgray;
+    margin-top: 20px;
+}
+
+
+@media(min-width:768px){
+    .comment-area{
+        padding: 20px;
+        height: 260px;
+        margin-top: 10px;
+    }    
+}
+
+
+
+@media(min-width:830px){
+    .comment-area{
+        padding: 20px;
+        height: 360px;
+        margin-top: 10px;
+    }    
+}
+
+
+/* comment section */
+
+.comment-section{
+    border-top: 0.5px solid #f1eded;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* creator description */
+
+.creator-description-complete{
+    display: none;
+}
+
+/* comment fonts */
+
+.comment-font{
+    font-size: 15px;
+}
+
+.commentor-font{
+    color: black;
+    font-weight: 600;
+}
+
+/* comment text */
+
+.comment-text{
+    border: none;   
+}
+
+.comment-text::placeholder{
+    opacity: .50;
+}
+
+.comment-text:focus{
+    border-color: #ffffff;
+    box-shadow: 0px 0px 0px white inset, 0px 0px 0px white;
+}
+
+/* comment reactions */
+
+.comment-heart{
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.comment-post{
+    border: none;
+}
+
+.comment-review{
+    padding: 0%;
+    margin-right: 7px;
+}
+
+.comment-like-font{
+    font-size: 13px;
+}
+
+
+/* comment image */
+
+.feed-comment-img{
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border: .5px solid lightgrey;
+}
+
